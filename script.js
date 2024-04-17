@@ -4,14 +4,26 @@ const restartBtn = document.querySelector(".restart-btn");
 const againBtn = document.querySelector(".again-btn");
 const modal = document.querySelector(".modal");
 const overlay = document.querySelector(".overlay");
-const squares = Array.from(document.querySelectorAll(".square"));
+const playerOne = document.querySelector(".player-1");
+const playerTwo = document.querySelector(".player-2");
 
-squares.forEach((square, i) => {
-  square.dataset.index = squares.indexOf(squares[i]);
-});
+(() => {
+  const squares = Array.from(document.querySelectorAll(".square"));
+  squares.forEach((square, i) => {
+    square.dataset.index = squares.indexOf(squares[i]);
+  });
+})();
 
-const player1 = { player: 1, playerChoice: [] };
-const player2 = { player: 2, playerChoice: [] };
+const player1 = { playerChoice: [] };
+const player2 = { playerChoice: [] };
+
+function addClass(cssClass, ...el) {
+  el.forEach((e) => e.classList.add(cssClass));
+}
+
+function removeClass(cssClass, ...el) {
+  el.forEach((e) => e.classList.remove(cssClass));
+}
 
 function isWinning(player) {
   const winningCombos = [
@@ -32,8 +44,9 @@ function isWinning(player) {
 
 function renderResult(playerNum) {
   const result = modal.querySelector(".result");
-  modal.classList.remove("hidden");
-  overlay.classList.remove("hidden");
+
+  removeClass("active", playerOne, playerTwo);
+  removeClass("hidden", modal, overlay);
   result.innerHTML = `${playerNum ? `PLAYER ${playerNum} WIN!` : "TIE!"}`;
 }
 
@@ -42,9 +55,10 @@ function restart() {
   player2.playerChoice = [];
   document
     .querySelectorAll(".icon")
-    .forEach((icon) => icon.classList.add("hidden"));
-  modal.classList.add("hidden");
-  overlay.classList.add("hidden");
+    .forEach((icon) => addClass("hidden", icon));
+  addClass("hidden", modal, overlay);
+  addClass("active", playerOne);
+  removeClass("active", playerTwo);
 }
 
 gameBoard.addEventListener("click", (e) => {
@@ -58,14 +72,18 @@ gameBoard.addEventListener("click", (e) => {
 
   if (player1.playerChoice.length === player2.playerChoice.length) {
     if (condition) {
+      removeClass("active", playerOne);
+      addClass("active", playerTwo);
       player1.playerChoice.push(squareIndex);
-      square.querySelector(".x").classList.remove("hidden");
+      removeClass("hidden", square.querySelector(".x"));
       if (isWinning(player1)) renderResult("1");
     }
   } else {
     if (condition) {
+      removeClass("active", playerTwo);
+      addClass("active", playerOne);
       player2.playerChoice.push(squareIndex);
-      square.querySelector(".o").classList.remove("hidden");
+      removeClass("hidden", square.querySelector(".o"));
       if (isWinning(player2)) renderResult("2");
     }
   }

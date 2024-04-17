@@ -1,4 +1,6 @@
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -10,6 +12,45 @@ body {
   justify-content: center;
   align-items: center;
   background: #111;
+}
+
+.players {
+  position: absolute;
+  top: 15px;
+  display: flex;
+  justify-content: space-between;
+  gap: 120px;
+  font-size: 24px;
+  font-weight: bolder;
+  color: #6420aa;
+}
+
+.player-1,
+.player-2 {
+  transition: all 0.1s ease;
+  position: relative;
+}
+
+.player-1::after {
+  content: "<X>";
+  position: absolute;
+  bottom: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.player-2::after {
+  content: "<O>";
+  position: absolute;
+  bottom: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.player-1.active,
+.player-2.active {
+  transform: scale(1.2);
+  color: #7cfc00;
 }
 
 .game-board {
