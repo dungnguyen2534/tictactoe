@@ -1,1 +1,1 @@
-I’ve learned JS from various sources, and I built this tic-tac-toe game while studying JS on [The Odin Project](https://www.theodinproject.com/paths/full-stack-javascript/courses/javascript) before I got bored and dropped out of the course 😄
+Simple JS tic tac toe game
